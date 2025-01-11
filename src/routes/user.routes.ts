@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { UserController } from "../controllers/user.controller";
-import { UserService } from "../services/user.service";
-import { UserModel } from "../models/user.model";
+import { UserService } from "../modules/users/user.service";
+import { UserModel } from "../modules/users/user.model";
 
 export async function userRoutes(fastify: FastifyInstance) {
   const userModel = new UserModel();

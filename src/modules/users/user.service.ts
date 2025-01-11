@@ -1,0 +1,31 @@
+import { UserModel } from "./user.model";
+import { User } from "../../types/user.types";
+import { CreateUserDTO, UpdateUserDTO, UserResponseDTO } from "./user.dto";
+
+export class UserService {
+  constructor(private userModel: UserModel) {}
+
+  async getUser(id: string): Promise<UserResponseDTO | null> {
+    const user = await this.userModel.findById(id);
+    if (!user) return null;
+    return new UserResponseDTO(user.id, "", user.email, user.created_at);
+  }
+
+  async updateUser(
+    id: string,
+    userData: Partial<UpdateUserDTO>
+  ): Promise<UserResponseDTO | null> {
+    const user = await this.userModel.update(id, userData);
+    if (!user) return null;
+    return new UserResponseDTO(user.id, "", user.email, user.created_at);
+  }
+
+  async performSensitiveAction(id: string): Promise<void> {
+    // Add security checks and validation before performing sensitive operations
+    const user = await this.userModel.findById(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    // Perform sensitive action logic here
+  }
+}

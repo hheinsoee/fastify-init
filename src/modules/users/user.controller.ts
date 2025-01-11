@@ -1,6 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { UserService } from "../services/user.service";
-import { User } from "../types/user.types";
+import { UserService } from "./user.service";
 
 export class UserController {
   constructor(private userService: UserService) {}
