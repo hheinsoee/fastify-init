@@ -6,9 +6,6 @@ COPY package*.json ./
 
 RUN npm install
 
-RUN npm install -g prisma
-RUN npm install -D prisma-generator-typescript-interfaces
-
 COPY . .
 
 RUN npx prisma generate
