@@ -8,7 +8,7 @@
     "dev": "cross-env NODE_ENV=development nodemon",
     "format": "prettier --write \"src/**/*.ts\"",
     "build": "rimraf dist && tsc",
-    "start": "node dist/src/app.js",
+    "start": "node dist/app.js",
     "test": "jest"
   },
   "dependencies": {

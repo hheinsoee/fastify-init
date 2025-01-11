@@ -1,5 +1,5 @@
 import configPlugin from "./plugins/config";
-import firebaseAuthPlugin from "./plugins/firebaseAuth";
+import firebaseAuthPlugin from "./plugins/firebase-auth.ts";
 import fastify from "fastify";
 import router from "./router";
 import fastifyCors from "@fastify/cors";
