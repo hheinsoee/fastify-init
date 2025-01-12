@@ -9,10 +9,25 @@ const app = fastify({
   logger: {
     level: "error",
     transport: {
-      target: "pino-pretty", 
+      target: "pino-pretty",
       options: {
-        translateTime: "HH:MM:ss Z",
+        colorize: true,
+        levelFirst: true,
+        translateTime: "yyyy-mm-dd HH:MM:ss",
         ignore: "pid,hostname",
+        messageFormat: "{msg}",
+        // Customize colors
+        customColors: "error:red,warn:yellow,info:blue",
+        // Add visual separators
+        // messageFormat: '\n    {msg}',
+        // Include error stack traces in a readable format
+        errorLikeObjectKeys: ["err", "error"],
+        // Add some visual organization
+        // levelFirst: true,
+        // customPrettifiers: {
+        //   time: (timestamp: string) => timestamp,
+        //   level: (level: string) => `${level.toUpperCase()}`,
+        // },
       },
     },
   },
