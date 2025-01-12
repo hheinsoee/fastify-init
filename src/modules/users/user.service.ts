@@ -1,14 +1,23 @@
+import { Prisma } from "@prisma/client";
+import { HttpError } from "../../errors/HttpError";
 import { UserRepository } from "./repositories/user.repository";
-import { CreateUserDTO, UpdateUserDTO, UserResponseDTO } from "./user.dto";
+import {
+  CreateUserDTO,
+  FilterUserDTO,
+  UpdateUserDTO,
+  UserResponseDTO,
+} from "./user.dto";
 
 export class UserService {
   constructor(private userRepository: UserRepository) {}
 
   async createUser(data: CreateUserDTO): Promise<UserResponseDTO> {
     // Check if user exists
-    const existingUser = await this.userRepository.findByEmail(data.email);
+    const existingUser = await this.userRepository.findAll({
+      OR: [{ email: data.email }, { uid: data.username }],
+    });
     if (existingUser) {
-      throw new Error("User already exists with this email");
+      throw new HttpError("User already exists with this email or uid", 400);
     }
 
     // Hash password
@@ -25,7 +34,7 @@ export class UserService {
   async getProfile(userId: string): Promise<UserResponseDTO> {
     const user = await this.userRepository.findById(userId);
     if (!user) {
-      throw new Error("User not found");
+      throw new HttpError("User not found", 404);
     }
 
     return new UserResponseDTO(user);
@@ -45,7 +54,7 @@ export class UserService {
     if (data.email && data.email !== existingUser.email) {
       const emailInUse = await this.userRepository.findByEmail(data.email);
       if (emailInUse) {
-        throw new Error("Email already in use");
+        throw new HttpError("Email already in use", 400);
       }
     }
 
@@ -69,5 +78,10 @@ export class UserService {
   async getUserById(id: string): Promise<UserResponseDTO | null> {
     const user = await this.userRepository.findById(id);
     return user ? new UserResponseDTO(user) : null;
+  }
+
+  async getUser(filter?: FilterUserDTO): Promise<UserResponseDTO[]> {
+    const user = await this.userRepository.findAll(filter);
+    return user.map((u) => new UserResponseDTO(u));
   }
 }

@@ -1,6 +1,6 @@
 // users/repositories/user.repository.ts
-import { PrismaClient, User } from "@prisma/client";
-import { CreateUserDTO, UpdateUserDTO } from "../user.dto";
+import { Prisma, PrismaClient, User } from "@prisma/client";
+import { CreateUserDTO, FilterUserDTO, UpdateUserDTO } from "../user.dto";
 import { IUserRepository } from "../interfaces/user.repository.interface";
 import { ulid } from "ulidx";
 
@@ -28,6 +28,11 @@ export class UserRepository implements IUserRepository {
       where: { email },
     });
   }
+  async findByUid(uid: string): Promise<User | null> {
+    return this.prisma.user.findUnique({
+      where: { uid },
+    });
+  }
 
   async update(id: string, data: UpdateUserDTO): Promise<User | null> {
     return this.prisma.user.update({
@@ -47,7 +52,7 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  async findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
+  async findAll(filter?: FilterUserDTO): Promise<User[]> {
+    return this.prisma.user.findMany({ where: filter });
   }
 }

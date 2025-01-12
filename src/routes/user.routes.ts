@@ -19,13 +19,14 @@ export async function userRoutes(fastify: FastifyInstance) {
 
   // All these routes are already protected by the auth middleware
   // Public routes
-  fastify.post("/users", userController.createUser.bind(userController));
+  fastify.get("/", userController.getUser.bind(userController));
+  fastify.post("/", userController.createUser.bind(userController));
   // fastify.get("/users/search", userController.searchUsers.bind(userController));
-  fastify.get("/users/:id", userController.getUserById.bind(userController));
+  fastify.get("/:id", userController.getUserById.bind(userController));
 
   // Protected routes
   fastify.get(
-    "/profile",
+    "/me",
     {
       // onRequest: [fastify.authenticate]
     },
@@ -33,7 +34,7 @@ export async function userRoutes(fastify: FastifyInstance) {
   );
 
   fastify.put(
-    "/profile",
+    "/me",
     {
       // onRequest: [fastify.authenticate]
     },
@@ -41,7 +42,7 @@ export async function userRoutes(fastify: FastifyInstance) {
   );
 
   fastify.delete(
-    "/profile",
+    "/:id",
     {
       // onRequest: [fastify.authenticate]
     },

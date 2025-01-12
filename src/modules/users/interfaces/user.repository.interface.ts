@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { CreateUserDTO, UpdateUserDTO } from "../user.dto";
+import { CreateUserDTO, FilterUserDTO, UpdateUserDTO } from "../user.dto";
 
 // users/interfaces/user.repository.interface.ts
 export interface IUserRepository {
@@ -8,5 +8,5 @@ export interface IUserRepository {
   findByEmail(email: string): Promise<User | null>;
   update(id: string, data: UpdateUserDTO): Promise<User | null>;
   delete(id: string): Promise<boolean>;
-  findAll(): Promise<User[]>;
+  findAll(where: FilterUserDTO): Promise<User[]>;
 }

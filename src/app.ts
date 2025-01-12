@@ -5,7 +5,18 @@ import router from "./router";
 import fastifyCors from "@fastify/cors";
 
 const app = fastify({
-  logger: !!(process.env.NODE_ENV !== "development"),
+  // logger: !!(process.env.NODE_ENV !== "development"),
+  logger: {
+    level: "error",
+    transport: {
+      target: "pino-pretty", 
+      options: {
+        translateTime: "HH:MM:ss Z",
+        ignore: "pid,hostname",
+      },
+    },
+  },
+
   exposeHeadRoutes: true,
 });
 

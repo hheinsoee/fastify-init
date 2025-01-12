@@ -20,6 +20,7 @@
     "fastify-plugin": "^5.0.1",
     "firebase-admin": "^12.7.0",
     "googleapis": "^144.0.0",
+    "pino-pretty": "^13.0.0",
     "ulidx": "^2.4.1"
   },
   "devDependencies": {
